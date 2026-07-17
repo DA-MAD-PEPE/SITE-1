@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MAD PEPE</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #f5f7db;
+        --muted: #b7c58f;
+        --acid: #a9ff00;
+        --gold: #f3d35b;
+        --violet: #a855f7;
+        --cyan: #4ee7ff;
+        --panel: rgba(7, 10, 6, 0.74);
+        --panel-strong: rgba(5, 7, 4, 0.88);
+        --line: rgba(169, 255, 0, 0.28);
+        --cartoon-font: "Cooper Black", "Comic Sans MS", "Arial Black", Impact, sans-serif;
+        --comic-shadow: 5px 5px 0 #081300, 0 0 18px rgba(169, 255, 0, 0.32);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background: #030501;
+      }
+
+      body {
+        min-height: 100%;
+        margin: 0;
+        color: var(--ink);
+        font-family: "Comic Sans MS", "Trebuchet MS", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      button,
+      a {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .site-shell {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        background: #030501;
+      }
+
+      .backdrop {
+        position: fixed;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.24) 48%, rgba(0, 0, 0, 0.36)),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.84)),
+          url("assets/rbt-back.png") center / cover no-repeat;
+        transform: scale(1.01);
+      }
+
+      .backdrop::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background:
+          repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.025) 0,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 6px
+          ),
+          radial-gradient(circle at 22% 78%, rgba(169, 255, 0, 0.18), transparent 28%),
+          radial-gradient(circle at 86% 22%, rgba(168, 85, 247, 0.14), transparent 24%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+
+      .hero {
+        position: relative;
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        padding: 22px clamp(18px, 4vw, 58px) 30px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        min-height: 54px;
+      }
+
+      .brand-lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--ink);
+        font-weight: 900;
+        letter-spacing: 0;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 #071000;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 3px solid #101600;
+        border-radius: 8px;
+        background: var(--acid);
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.82), 0 0 24px rgba(169, 255, 0, 0.28);
+        color: #101600;
+        font-family: var(--cartoon-font);
+        transform: rotate(-4deg);
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(86px, 1fr));
+        gap: 8px;
+        max-width: 420px;
+        width: min(100%, 420px);
+        padding: 6px;
+        border: 3px solid #101600;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.52);
+        box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.78), inset 0 0 0 1px rgba(169, 255, 0, 0.35);
+        backdrop-filter: blur(18px);
+      }
+
+      .tab {
+        min-height: 42px;
+        border: 2px solid #101600;
+        border-radius: 6px;
+        background: rgba(245, 247, 219, 0.08);
+        color: #e6efba;
+        font-family: var(--cartoon-font);
+        font-weight: 900;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 #071000;
+        transition: transform 140ms ease, background 140ms ease, box-shadow 140ms ease;
+      }
+
+      .tab:hover,
+      .tab:focus-visible {
+        border-color: #101600;
+        color: var(--ink);
+        transform: translate(-1px, -1px) rotate(-1deg);
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.75);
+        outline: none;
+      }
+
+      .tab.is-active {
+        border-color: #101600;
+        background: var(--acid);
+        color: #101600;
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.86);
+        text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.46);
+        transform: rotate(1deg);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 560px);
+        gap: clamp(18px, 4vw, 56px);
+        align-items: end;
+        flex: 1;
+        padding-top: clamp(46px, 9vh, 118px);
+      }
+
+      .intro-panel {
+        max-width: 720px;
+        padding-bottom: clamp(24px, 8vh, 72px);
+      }
+
+      .eyebrow,
+      .panel-kicker {
+        margin: 0 0 14px;
+        color: var(--acid);
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-family: var(--cartoon-font);
+        text-shadow: 2px 2px 0 #071000;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 18px;
+        color: #fbffd9;
+        font-family: var(--cartoon-font);
+        font-size: clamp(3.3rem, 8vw, 8.6rem);
+        line-height: 0.87;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        -webkit-text-stroke: 2px #111700;
+        text-shadow:
+          var(--comic-shadow),
+          0 8px 0 rgba(0, 0, 0, 0.38);
+      }
+
+      .hero-copy {
+        max-width: 620px;
+        color: #e8efc6;
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        line-height: 1.55;
+      }
+
+      .hero-actions,
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .hero-actions span,
+      .chip-row span {
+        border: 1px solid rgba(243, 211, 91, 0.46);
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.56);
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
+        color: var(--gold);
+        padding: 10px 12px;
+        font-size: 0.78rem;
+        font-weight: 900;
+        font-family: var(--cartoon-font);
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 #071000;
+      }
+
+      .tab-panel {
+        border: 3px solid #101600;
+        border-radius: 8px;
+        background:
+          linear-gradient(145deg, rgba(8, 12, 5, 0.92), rgba(5, 7, 8, 0.72)),
+          var(--panel);
+        box-shadow:
+          10px 10px 0 rgba(0, 0, 0, 0.72),
+          0 24px 90px rgba(0, 0, 0, 0.48),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        padding: clamp(20px, 3vw, 30px);
+        outline: 2px solid rgba(169, 255, 0, 0.42);
+        outline-offset: -8px;
+      }
+
+      .tab-panel h2 {
+        margin-bottom: 12px;
+        color: var(--ink);
+        font-family: var(--cartoon-font);
+        font-size: clamp(1.7rem, 4vw, 3rem);
+        line-height: 0.96;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        -webkit-text-stroke: 1px #111700;
+        text-shadow: 3px 3px 0 #071000;
+      }
+
+      .tab-panel p:not(.panel-kicker) {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 22px 0;
+      }
+
+      .stat {
+        min-height: 82px;
+        border: 2px solid rgba(169, 255, 0, 0.5);
+        border-radius: 6px;
+        background: var(--panel-strong);
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
+        padding: 12px;
+      }
+
+      .stat span,
+      .arcade-strip span {
+        display: block;
+        margin-bottom: 8px;
+        color: #94a46e;
+        font-size: 0.72rem;
+        font-weight: 800;
+        font-family: var(--cartoon-font);
+        text-transform: uppercase;
+      }
+
+      .stat strong,
+      .arcade-strip strong {
+        color: var(--ink);
+        font-family: var(--cartoon-font);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        letter-spacing: 0;
+      }
+
+      .coin-board {
+        margin-top: 22px;
+      }
+
+      .coin-board[hidden] {
+        display: none;
+      }
+
+      .coin-board-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+        color: var(--acid);
+        font-family: var(--cartoon-font);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 #071000;
+      }
+
+      .coin-board-header strong {
+        color: var(--gold);
+        font-weight: 900;
+      }
+
+      .coin-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .coin-card {
+        display: grid;
+        gap: 10px;
+        min-height: 178px;
+        border: 3px solid #101600;
+        border-radius: 8px;
+        background:
+          linear-gradient(145deg, rgba(9, 13, 4, 0.96), rgba(0, 0, 0, 0.88)),
+          var(--panel-strong);
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.78);
+        padding: 12px;
+      }
+
+      .coin-card-green {
+        outline: 2px solid rgba(169, 255, 0, 0.72);
+        outline-offset: -6px;
+      }
+
+      .coin-card-purple {
+        outline: 2px solid rgba(168, 85, 247, 0.88);
+        outline-offset: -6px;
+      }
+
+      .coin-card-blue {
+        outline: 2px solid rgba(78, 231, 255, 0.88);
+        outline-offset: -6px;
+      }
+
+      .coin-card-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .coin-dot {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+        border: 2px solid #101600;
+        border-radius: 999px;
+        background: var(--acid);
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.76);
+      }
+
+      .coin-card-purple .coin-dot {
+        background: var(--violet);
+      }
+
+      .coin-card-blue .coin-dot {
+        background: var(--cyan);
+      }
+
+      .coin-symbol {
+        display: block;
+        color: var(--ink);
+        font-family: var(--cartoon-font);
+        font-size: 1rem;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 #071000;
+      }
+
+      .coin-name {
+        display: block;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .coin-mc {
+        color: var(--acid);
+        font-family: var(--cartoon-font);
+        font-size: clamp(1.5rem, 4vw, 2.15rem);
+        line-height: 0.95;
+        text-shadow: 3px 3px 0 #071000;
+      }
+
+      .coin-meta {
+        display: grid;
+        gap: 4px;
+        color: #dbe7b2;
+        font-size: 0.72rem;
+        font-weight: 800;
+      }
+
+      .coin-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .coin-links a {
+        border: 2px solid #101600;
+        border-radius: 6px;
+        background: var(--gold);
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
+        color: #141100;
+        font-family: var(--cartoon-font);
+        font-size: 0.72rem;
+        padding: 8px 10px;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .coin-links a:hover,
+      .coin-links a:focus-visible {
+        background: var(--acid);
+        outline: none;
+        transform: translate(-1px, -1px) rotate(-1deg);
+      }
+
+      .arcade-strip {
+        display: none;
+        grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
+        gap: 12px;
+        align-items: stretch;
+        margin-top: 22px;
+      }
+
+      .arcade-strip.is-visible {
+        display: grid;
+      }
+
+      .arcade-strip button,
+      .arcade-strip div {
+        min-height: 70px;
+        border: 3px solid #101600;
+        border-radius: 8px;
+        background: var(--cyan);
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.78);
+        color: #051314;
+        font-family: var(--cartoon-font);
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .arcade-strip button:hover,
+      .arcade-strip button:focus-visible {
+        border-color: #101600;
+        background: var(--acid);
+        color: #101600;
+        transform: translate(-1px, -1px) rotate(-1deg);
+        outline: none;
+      }
+
+      .arcade-strip div {
+        display: grid;
+        align-content: center;
+        padding: 12px;
+      }
+
+      .production-credit {
+        align-self: flex-end;
+        margin-top: 18px;
+        color: rgba(245, 247, 219, 0.72);
+        font-family: var(--cartoon-font);
+        font-size: 0.72rem;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 #071000, 0 0 10px rgba(169, 255, 0, 0.24);
+      }
+
+      @media (max-width: 820px) {
+        .hero {
+          padding: 16px 14px 24px;
+        }
+
+        .topbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .tabs {
+          max-width: none;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+          padding-top: 36px;
+        }
+
+        .intro-panel {
+          padding-bottom: 0;
+        }
+
+        .stat-grid,
+        .coin-grid,
+        .arcade-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .coin-board-header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        h1 {
+          font-size: clamp(3rem, 14vw, 5.8rem);
+        }
+
+        .production-credit {
+          align-self: center;
+          margin-top: 22px;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .tabs {
+          grid-template-columns: 1fr;
+        }
+
+        .tab {
+          min-height: 38px;
+        }
+
+        .hero-actions span,
+        .chip-row span {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="site-shell">
+      <div class="backdrop" aria-hidden="true"></div>
+      <section class="hero" aria-labelledby="site-title">
+        <header class="topbar">
+          <a class="brand-lockup" href="./index.html" aria-label="MAD PEPE home">
+            <span class="brand-mark">MP</span>
+            <span>MAD PEPE</span>
+          </a>
+          <nav class="tabs" aria-label="MAD PEPE sections">
+            <button class="tab is-active" type="button" aria-selected="true" data-tab="coins">Coins</button>
+            <button class="tab" type="button" aria-selected="false" data-tab="community">Community</button>
+            <button class="tab" type="button" aria-selected="false" data-tab="arcade">Arcade</button>
+          </nav>
+        </header>
+
+        <div class="hero-grid">
+          <div class="intro-panel">
+            <p class="eyebrow">MAD PEPE crypto community</p>
+            <h1 id="site-title">Rally the crew. Guard the bag.</h1>
+            <p class="hero-copy">
+              A neon home base for coin updates, community action, and arcade chaos,
+              built around the loyalty-first energy of MAD PEPE.
+            </p>
+            <div class="hero-actions" aria-label="Community highlights">
+              <span>No rugs</span>
+              <span>No lies</span>
+              <span>Community first</span>
+            </div>
+          </div>
+
+          <article class="tab-panel" aria-live="polite">
+            <p class="panel-kicker" id="panel-kicker">watch the bags</p>
+            <h2 id="panel-title">MAD PEPE coin room</h2>
+            <p id="panel-body">
+              A loud, clean command center for community tokens, launch notes, and
+              contract links when the crew is ready to share them.
+            </p>
+
+            <div class="stat-grid" id="stat-grid"></div>
+            <div class="chip-row" id="chip-row" aria-label="Tab topics"></div>
+            <div class="coin-board" id="coin-board" hidden>
+              <div class="coin-board-header">
+                <span id="coin-status">Loading live MC...</span>
+                <strong id="coin-updated">Syncing</strong>
+              </div>
+              <div class="coin-grid" id="coin-grid"></div>
+            </div>
+
+            <div class="arcade-strip" id="arcade-strip">
+              <button type="button" id="score-button">Ribbit +10</button>
+              <div>
+                <span>Arcade score</span>
+                <strong id="score">0000</strong>
+              </div>
+            </div>
+          </article>
+        </div>
+        <footer class="production-credit">CUJO Empire Productions</footer>
+      </section>
+    </main>
+
+    <script>
+      const tabs = {
+        coins: {
+          kicker: "watch the bags",
+          title: "MAD PEPE coin room",
+          body:
+            "A loud, clean command center for community tokens, launch notes, and contract links when the crew is ready to share them.",
+          stats: [
+            ["Coins", "4 live"],
+            ["Source", "Pump.fun"],
+            ["Refresh", "30 sec"]
+          ],
+          actions: ["Live MC", "Pump links", "Dex view"]
+        },
+        community: {
+          kicker: "loyalty over greed",
+          title: "The swamp table",
+          body:
+            "Rally calls, raids, art drops, and announcements live here so new members can land fast and regulars know where the energy is.",
+          stats: [
+            ["Signal", "No rugs"],
+            ["Vibe", "No lies"],
+            ["Rule", "Community first"]
+          ],
+          actions: ["Announcements", "Raids", "Member wins"]
+        },
+        arcade: {
+          kicker: "tap to ribbit",
+          title: "Pepe arcade",
+          body:
+            "A compact arcade corner for quick community games, leaderboard ideas, and meme-powered side quests.",
+          stats: [
+            ["Game", "Ribbit Rush"],
+            ["Score", "Live"],
+            ["Status", "Open"]
+          ],
+          actions: ["Mini games", "Challenges", "Scoreboard"]
+        }
+      };
+
+      const coins = [
+        {
+          accent: "green",
+          mint: "A1afs3nmxoVfh7YDxHmiHHywJtH7CM9vhLNkUvVN3Vxb",
+          fallbackName: "Rib It! 1",
+          fallbackSymbol: "PPFR1"
+        },
+        {
+          accent: "purple",
+          mint: "TGtcV9hyQXGeznnggqffWkpCRwuMemL9BiF3SbkF6Ga",
+          fallbackName: "Rib It! 2",
+          fallbackSymbol: "PPFR2"
+        },
+        {
+          accent: "green",
+          mint: "B5BszZGez8JWAawUssyT9vKTAe2cfqJze4wmjn1LzyWP",
+          fallbackName: "Rib It! 3",
+          fallbackSymbol: "PPFR3"
+        },
+        {
+          accent: "blue",
+          mint: "Dx2yRpx6dyHrd4T8Xw7f69jA9YzQxS2KiFFCAbTdY4qE",
+          fallbackName: "Rib It! 4",
+          fallbackSymbol: "PPFR4"
+        }
+      ];
+
+      const coinEndpoint = `https://api.dexscreener.com/latest/dex/tokens/${coins
+        .map((coin) => coin.mint)
+        .join(",")}`;
+
+      let score = 0;
+      let coinPairs = {};
+      const kicker = document.getElementById("panel-kicker");
+      const title = document.getElementById("panel-title");
+      const body = document.getElementById("panel-body");
+      const statGrid = document.getElementById("stat-grid");
+      const chipRow = document.getElementById("chip-row");
+      const coinBoard = document.getElementById("coin-board");
+      const coinGrid = document.getElementById("coin-grid");
+      const coinStatus = document.getElementById("coin-status");
+      const coinUpdated = document.getElementById("coin-updated");
+      const arcadeStrip = document.getElementById("arcade-strip");
+      const scoreText = document.getElementById("score");
+
+      function formatUsd(value) {
+        const number = Number(value);
+        if (!Number.isFinite(number) || number <= 0) {
+          return "TBA";
+        }
+
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: number >= 1000 ? 0 : 2
+        }).format(number);
+      }
+
+      function shortMint(mint) {
+        return `${mint.slice(0, 4)}...${mint.slice(-4)}`;
+      }
+
+      function appendText(parent, tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) {
+          element.className = className;
+        }
+        element.textContent = text;
+        parent.appendChild(element);
+        return element;
+      }
+
+      function renderCoinBoard() {
+        coinGrid.textContent = "";
+
+        coins.forEach((coin) => {
+          const pair = coinPairs[coin.mint];
+          const symbol = pair?.baseToken?.symbol || coin.fallbackSymbol;
+          const name = pair?.baseToken?.name || coin.fallbackName;
+          const marketCap = pair?.marketCap ?? pair?.fdv;
+          const volume = pair?.volume?.h24;
+
+          const card = document.createElement("article");
+          card.className = `coin-card coin-card-${coin.accent}`;
+
+          const top = document.createElement("div");
+          top.className = "coin-card-top";
+          const dot = document.createElement("span");
+          dot.className = "coin-dot";
+          dot.setAttribute("aria-hidden", "true");
+          const label = document.createElement("div");
+          appendText(label, "strong", "coin-symbol", symbol);
+          appendText(label, "span", "coin-name", name);
+          top.append(dot, label);
+
+          appendText(card, "div", "coin-mc", formatUsd(marketCap));
+          const meta = document.createElement("div");
+          meta.className = "coin-meta";
+          appendText(meta, "span", "", `24h vol ${formatUsd(volume)}`);
+          appendText(meta, "span", "", shortMint(coin.mint));
+
+          const links = document.createElement("div");
+          links.className = "coin-links";
+          const pumpLink = document.createElement("a");
+          pumpLink.href = `https://pump.fun/coin/${coin.mint}`;
+          pumpLink.target = "_blank";
+          pumpLink.rel = "noreferrer";
+          pumpLink.textContent = "Pump.fun";
+          links.appendChild(pumpLink);
+
+          if (pair?.url) {
+            const dexLink = document.createElement("a");
+            dexLink.href = pair.url;
+            dexLink.target = "_blank";
+            dexLink.rel = "noreferrer";
+            dexLink.textContent = "Dex";
+            links.appendChild(dexLink);
+          }
+
+          card.prepend(top);
+          card.append(meta, links);
+          coinGrid.appendChild(card);
+        });
+      }
+
+      async function loadCoins() {
+        try {
+          const response = await fetch(coinEndpoint, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`Live data returned ${response.status}`);
+          }
+
+          const data = await response.json();
+          const nextPairs = {};
+          (data.pairs || []).forEach((pair) => {
+            const mint = pair.baseToken?.address;
+            if (mint && pair.chainId === "solana" && pair.dexId === "pumpfun" && !nextPairs[mint]) {
+              nextPairs[mint] = pair;
+            }
+          });
+
+          coinPairs = nextPairs;
+          coinStatus.textContent = "Live from Pump.fun pairs";
+          coinUpdated.textContent = `Updated ${new Date().toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit"
+          })}`;
+          renderCoinBoard();
+        } catch (error) {
+          coinStatus.textContent = "Live MC unavailable";
+          coinUpdated.textContent = "Retrying";
+          renderCoinBoard();
+        }
+      }
+
+      function renderTab(id) {
+        const tab = tabs[id] || tabs.coins;
+        kicker.textContent = tab.kicker;
+        title.textContent = tab.title;
+        body.textContent = tab.body;
+        statGrid.innerHTML = tab.stats
+          .map(([label, value]) => `<div class="stat"><span>${label}</span><strong>${value}</strong></div>`)
+          .join("");
+        chipRow.innerHTML = tab.actions.map((action) => `<span>${action}</span>`).join("");
+        coinBoard.hidden = id !== "coins";
+        arcadeStrip.classList.toggle("is-visible", id === "arcade");
+
+        document.querySelectorAll(".tab").forEach((button) => {
+          const isActive = button.dataset.tab === id;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-selected", String(isActive));
+        });
+      }
+
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.addEventListener("click", () => renderTab(button.dataset.tab));
+      });
+
+      document.getElementById("score-button").addEventListener("click", () => {
+        score += 10;
+        scoreText.textContent = String(score).padStart(4, "0");
+      });
+
+      renderTab("coins");
+      renderCoinBoard();
+      loadCoins();
+      window.setInterval(loadCoins, 30000);
+    </script>
+  </body>
+</html>
