@@ -1,0 +1,58 @@
+{
+  "source": "pump.fun",
+  "updatedAt": "2026-07-19T17:57:01.556Z",
+  "coins": [
+    {
+      "accent": "green",
+      "mint": "A1afs3nmxoVfh7YDxHmiHHywJtH7CM9vhLNkUvVN3Vxb",
+      "name": "Rib It! 1",
+      "symbol": "PPFR1",
+      "marketCapUsd": 2122.6726212297294,
+      "marketCapSol": 27.95899347716682,
+      "athMarketCapUsd": 2105.8731021731674,
+      "complete": false,
+      "updatedAt": "2026-07-17T03:25:35.000Z",
+      "pumpUrl": "https://pump.fun/coin/A1afs3nmxoVfh7YDxHmiHHywJtH7CM9vhLNkUvVN3Vxb",
+      "dexUrl": "https://dexscreener.com/solana/A1afs3nmxoVfh7YDxHmiHHywJtH7CM9vhLNkUvVN3Vxb"
+    },
+    {
+      "accent": "purple",
+      "mint": "TGtcV9hyQXGeznnggqffWkpCRwuMemL9BiF3SbkF6Ga",
+      "name": "Rib It! 2",
+      "symbol": "PPFR2",
+      "marketCapUsd": 2122.28655910564,
+      "marketCapSol": 27.95899347716682,
+      "athMarketCapUsd": 2105.8731021731674,
+      "complete": false,
+      "updatedAt": "2026-07-17T03:25:36.000Z",
+      "pumpUrl": "https://pump.fun/coin/TGtcV9hyQXGeznnggqffWkpCRwuMemL9BiF3SbkF6Ga",
+      "dexUrl": "https://dexscreener.com/solana/TGtcV9hyQXGeznnggqffWkpCRwuMemL9BiF3SbkF6Ga"
+    },
+    {
+      "accent": "green",
+      "mint": "B5BszZGez8JWAawUssyT9vKTAe2cfqJze4wmjn1LzyWP",
+      "name": "Rib It! 3",
+      "symbol": "PPFR3",
+      "marketCapUsd": 2122.28655910564,
+      "marketCapSol": 27.95899347716682,
+      "athMarketCapUsd": 2105.8731021731674,
+      "complete": false,
+      "updatedAt": "2026-07-17T03:25:40.000Z",
+      "pumpUrl": "https://pump.fun/coin/B5BszZGez8JWAawUssyT9vKTAe2cfqJze4wmjn1LzyWP",
+      "dexUrl": "https://dexscreener.com/solana/B5BszZGez8JWAawUssyT9vKTAe2cfqJze4wmjn1LzyWP"
+    },
+    {
+      "accent": "blue",
+      "mint": "Dx2yRpx6dyHrd4T8Xw7f69jA9YzQxS2KiFFCAbTdY4qE",
+      "name": "Rib It! 4",
+      "symbol": "PPFR4",
+      "marketCapUsd": 2122.6726251891505,
+      "marketCapSol": 27.958993529318725,
+      "athMarketCapUsd": 2130.0599229641853,
+      "complete": false,
+      "updatedAt": "2026-07-17T03:25:42.000Z",
+      "pumpUrl": "https://pump.fun/coin/Dx2yRpx6dyHrd4T8Xw7f69jA9YzQxS2KiFFCAbTdY4qE",
+      "dexUrl": "https://dexscreener.com/solana/Dx2yRpx6dyHrd4T8Xw7f69jA9YzQxS2KiFFCAbTdY4qE"
+    }
+  ]
+}
